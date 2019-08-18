@@ -98,7 +98,9 @@ Finally, The lane markings as well as the radius of curvature and vehicle offset
 
 ### Pipeline (video)
 
-The pipeline for the video processing is similar to the image one. The only difference is that we implement a line class to keep track of the information of the detected lines in the previous frames. The use of this is mainly important to decide on which lane finding technique to use based on whether the previously detected lines were deemed valid or not.
+The pipeline for the video processing is similar to the image one. However, I additionally implemented a line class to keep track of the information of the detected lines in the previous frames for two main proposes:
+1- Look ahead filter: Decide which lane finding technique to use based on whether the previously detected lines were deemed valid or not.
+2- Apply exponential smoothing by weighting the previously detected lanes and the current one.
 
 Here's a [link to my video result](./out_project_video.mp4)
 
@@ -106,7 +108,12 @@ Here's a [link to my video result](./out_project_video.mp4)
 
 ### Discussion: What could be Improved?
 
-More color channels could be used for example the HSV color space could be tried to see if it works best with the shadows. Smoothing could be applied to average results over a number of frames to avoid lane boudaries jumping around. A reset method could be implemented to reset the line parameters i.e previously detected poly and lanes after failure of lane detection for a number of frames. Sanity checks could be used to decide whether to go for a blind search for lane detection or to build upon previous frame information. Also a learning object detection methodology could be used for example based on (YOLO or R-CNN) instead of using a method with so many heuristics and thus it could be expected that such method would better generalize to more scenarios.
+#### Challenges:
+The main challenge was to decide on which combination of thresholds to use and also to decide on how to make use of previously the detected lanes in case of video processing.
 
+#### Where is the algorithm expected to fail:
+I tested the algorithm on the challenge videos in faces difficulty detecting the lanes in case of extreme shadows or lighting conditions and rapid changes in the lane curvature.
 
- 
+#### Possible Improvements:
+More color channels could be used for example the HSV color space could be tried to see if it works best with the shadows.
+A reset method could be implemented to reset the line parameters i.e previously detected poly and lanes after failure of lane detection for a number of frames. Sanity checks could be used to decide whether to go for a blind search for lane detection or to build upon previous frame information. Also a learning object detection methodology could be used for example based on (YOLO or R-CNN) instead of using a method with so many heuristics and thus it could be expected that such method would better generalize to more scenarios.
